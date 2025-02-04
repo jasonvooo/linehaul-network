@@ -43,6 +43,8 @@ Implement an HTTP server with **two endpoints**:
 ```
 
 This will start the Spring Boot application on **http://localhost:8080**.
+You can also access the swagger ui **http://localhost:8080/swagger-ui/index.html** which you can easily
+see the api documentation and test out the endpoints.
 
 ### **Build the Application**
 

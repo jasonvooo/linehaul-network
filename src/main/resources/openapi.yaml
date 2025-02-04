@@ -12,13 +12,14 @@ paths:
       summary: Update the line haul network
       description: Updates travel times between depots in the line haul network, removing all previous networks
       operationId: updateLineHaulNetwork
+      tags:
+        - Routes
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateLineHaulNetworkRequest'
-
       responses:
         "200":
           description: Successfully updated
@@ -38,6 +39,8 @@ paths:
       summary: Query travel times
       description: Returns the shortest travel time between two depots
       operationId: getTravelTime
+      tags:
+        - Routes
       parameters:
         - name: from
           in: query

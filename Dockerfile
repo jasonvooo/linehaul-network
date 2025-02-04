@@ -14,7 +14,7 @@ RUN chmod +x gradlew
 COPY . .
 
 # Build the application using Gradle (excluding tests for faster builds)
-RUN ./gradlew clean build -x test
+RUN ./gradlew build -x test
 
 # --- Stage 2: Create a minimal runtime image ---
 FROM openjdk:21-jdk-slim
