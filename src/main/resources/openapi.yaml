@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Line Haul Network API
+  description: API for updating and querying travel times between depots
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+paths:
+  /update:
+    post:
+      summary: Update the line haul network
+      description: Updates travel times between depots in the line haul network, removing all previous networks
+      operationId: updateLineHaulNetwork
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLineHaulNetworkRequest'
+
+      responses:
+        "200":
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateLineHaulNetworkRequest'
+
+        "400":
+          description: Bad request due to invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /route:
+    get:
+      summary: Query travel times
+      description: Returns the shortest travel time between two depots
+      operationId: getTravelTime
+      parameters:
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "DepotA"
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "DepotB"
+      responses:
+        "200":
+          description: Travel time response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  path:
+                    type: array
+                    items:
+                      type: string
+                    example: [ "DepotA", "DepotC", "DepotB" ]
+                  travel_time_total_seconds:
+                    type: integer
+                    example: 180
+        "400":
+          description: Bad request due to invalid input
+        "404":
+          description: No route found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    UpdateLineHaulNetworkRequest:
+      type: object
+      properties:
+        routes:
+          type: array
+          minItems: 1
+          items:
+            readOnly: true
+            type: object
+            properties:
+              from:
+                type: string
+                minLength: 1
+                example: "DepotA"
+              to:
+                type: string
+                minLength: 1
+                example: "DepotB"
+              travel_time_seconds:
+                type: integer
+                minimum: 0
+                example: 120
+            required:
+              - from
+              - to
+              - travel_time_seconds
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "An error occurred."
