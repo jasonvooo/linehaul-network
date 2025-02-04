@@ -61,3 +61,12 @@ This will compile and package the application.
 This will execute all unit and integration tests.
 
 ---
+
+### **Docker**
+
+Run application using docker
+
+```sh
+docker build -t linehaul-app .
+docker run -p 8080:8080 linehaul-app
+```
